@@ -4,9 +4,11 @@ import backend.dto.StudentResponseDto;
 import backend.entity.Student;
 import backend.service.StudentService;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class StudentController {
@@ -33,9 +35,17 @@ public class StudentController {
     }
 
     @DeleteMapping("/students/{id}")
-    public String deleteStudent(@PathVariable Long id) {
+    public ResponseEntity<Map<String, String>> deleteStudent(
+            @PathVariable Long id) {
+
         studentService.deleteStudent(id);
-        return "Student deleted successfully";
+
+        return ResponseEntity.ok(
+                Map.of(
+                        "message",
+                        "Student deleted successfully"
+                )
+        );
     }
 
     @PutMapping("/students/{id}")
