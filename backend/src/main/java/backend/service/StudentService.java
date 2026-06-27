@@ -82,6 +82,7 @@ public class StudentService {
         dto.setName(student.getName());
         dto.setEmail(student.getEmail());
         dto.setBeltRank(student.getBeltRank());
+        dto.setPhone(student.getPhone());
 
         return dto;
     }

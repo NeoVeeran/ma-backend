@@ -6,6 +6,7 @@ public class StudentResponseDto {
     private String name;
     private String email;
     private String beltRank;
+    private String phone;
 
     public Long getId() {
         return id;
@@ -37,5 +38,13 @@ public class StudentResponseDto {
 
     public void setBeltRank(String beltRank) {
         this.beltRank = beltRank;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
