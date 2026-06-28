@@ -34,6 +34,14 @@ public class StudentService {
     }
 
     public Student saveStudent(Student student) {
+
+        if (studentRepository.existsByEmail(student.getEmail())) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Email already exists"
+            );
+        }
+
         return studentRepository.save(student);
     }
 
@@ -52,9 +60,7 @@ public class StudentService {
     public void deleteStudent(Long id) {
 
         attendanceRepository.deleteByStudentId(id);
-
         feeRepository.deleteByStudentId(id);
-
         studentRepository.deleteById(id);
     }
 
@@ -64,7 +70,15 @@ public class StudentService {
                 .orElseThrow(() ->
                         new ResponseStatusException(
                                 HttpStatus.NOT_FOUND,
-                                "Student not found"));
+                                "Student not found"
+                        ));
+
+        if (studentRepository.existsByEmailAndIdNot(updatedStudent.getEmail(), id)) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Email already exists"
+            );
+        }
 
         student.setName(updatedStudent.getName());
         student.setEmail(updatedStudent.getEmail());
@@ -81,8 +95,8 @@ public class StudentService {
         dto.setId(student.getId());
         dto.setName(student.getName());
         dto.setEmail(student.getEmail());
-        dto.setBeltRank(student.getBeltRank());
         dto.setPhone(student.getPhone());
+        dto.setBeltRank(student.getBeltRank());
 
         return dto;
     }
