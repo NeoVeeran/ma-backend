@@ -16,6 +16,12 @@ public interface FeeRepository
 
     List<Fee> findByStudentId(Long studentId);
 
+    @Query("SELECT COALESCE(SUM(f.amount),0) FROM Fee f WHERE f.paid=true")
+    Double getCollectedFees();
+
+    @Query("SELECT COALESCE(SUM(f.amount),0) FROM Fee f WHERE f.paid=false")
+    Double getPendingFees();
+
     @Modifying
     @Transactional
     @Query("DELETE FROM Fee f WHERE f.student.id = :studentId")
